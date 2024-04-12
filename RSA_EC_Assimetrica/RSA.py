@@ -36,7 +36,7 @@ def decrypt_message(encrypted_message, private_key):
 public_key, private_key = generate_rsa_keypair()
 
 # Mensagem de exemplo
-message = "Diz uma mensagem ao Dani"
+message = "Bom dia teste"
 
 # Criptografar a mensagem usando a chave pública
 encrypted_message = encrypt_message(message, public_key)
