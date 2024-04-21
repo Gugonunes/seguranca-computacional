@@ -3,6 +3,9 @@ import hashlib
 import math
 
 def setup_tuple(mensagem_original, salt):
+  """"
+  Une a mensagem a um salt, cria um hash e une o hash com a mensagem original
+  """
   tupla_salt = (mensagem_original, salt)
   tupla_salt_serializada = str(tupla_salt).encode('utf-8')
   hash_original = hashlib.sha256(tupla_salt_serializada).digest()
@@ -10,6 +13,9 @@ def setup_tuple(mensagem_original, salt):
   return tupla_original
 
 def decrypt(tupla_original, salt):
+  """"
+  Separa a mensagem do hash, cria a tupla com o salt novamente, cria o hash e compara
+  """
   mensagem_descriptografada, hash_descriptografado = tupla_original
   tupla_salt = (mensagem_descriptografada, salt)
   tupla_salt_serializada = str(tupla_salt).encode('utf-8')

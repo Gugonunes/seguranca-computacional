@@ -7,7 +7,7 @@ from Crypto.Signature import pkcs1_15
 
 def encrypt_text(key, mensagem_original, cipher_AES):
   """
-  Encripta a mensagem original e a retorna a tupla com o hash.
+  Cria um hash com SHA, encripta o hash e une ele com a mensagem. Entao criptografa a tupla
   """
   hash_original = SHA256.new(mensagem_original.encode('utf-8'))
   signature_obj = pkcs1_15.new(key)
@@ -20,7 +20,7 @@ def encrypt_text(key, mensagem_original, cipher_AES):
 
 def decrypt_text(key, key_s, tupla_criptografada, cipher_AES):
   """
-  Desencripta a tupla criptografada e verifica a autenticidade da mensagem.
+  Desencripta a tupla criptografada, calcula um hash e compara para verificar a autenticidade
   """
   cipher_AES = AES.new(key_s, AES.MODE_CBC, iv=cipher_AES.iv)
   tupla_descriptografada_padded = cipher_AES.decrypt(tupla_criptografada)

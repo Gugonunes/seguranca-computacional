@@ -4,7 +4,7 @@ from Crypto.Hash import SHA256
 
 def encrypt_text(key, mensagem_original):
   """
-  Encripta a mensagem original e a retorna a tupla com o hash.
+  Cria um hash com SHA, encripta o hash e une ele com a mensagem
   """
   hash_original = SHA256.new(mensagem_original.encode('utf-8'))
   signature_obj = pkcs1_15.new(key)
@@ -14,7 +14,7 @@ def encrypt_text(key, mensagem_original):
 
 def decrypt_text(key, tupla_original):
   """
-  Desencripta a tupla criptografada e verifica a autenticidade da mensagem.
+  Separa a mensagem do hash, calcula um hash para a mensagem e compara para verificar a autenticidade
   """
   mensagem_original, hash_criptografado = tupla_original
   hash_calculado = SHA256.new(mensagem_original.encode('utf-8'))

@@ -5,7 +5,7 @@ import hashlib
 
 def encrypt_text(mensagem_original, cipher):
   """
-  Encripta a mensagem original e a retorna a tupla com o hash.
+  Cria um hash, encripta o hash e une ele com a mensagem
   """
   hash_original = hashlib.sha256(mensagem_original.encode()).digest()
   hash_serializado_padded = pad(hash_original, AES.block_size)
@@ -15,7 +15,7 @@ def encrypt_text(mensagem_original, cipher):
 
 def decrypt_text(key, tupla_original, cipher):
   """
-  Desencripta a tupla criptografada e verifica a autenticidade da mensagem.
+  Separa o hash e a mensagem original, desencripta o hash e verifica a autenticidade
   """
   cipher = AES.new(key, AES.MODE_CBC, iv=cipher.iv)
   mensagem_original, hash_criptografado = tupla_original
