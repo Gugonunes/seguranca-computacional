@@ -1,0 +1,25 @@
+openssl req -x509 -sha256 -days 3650 -newkey rsa:4096 -keyout rootCA.key -out rootCA.crt:
+Cria uma autoridade de certificação (CA) autoassinada com chave RSA de 4096 bits, usando o algoritmo de hash SHA-256,
+válida por 3650 dias, gerando um par de chaves e salvando a chave privada em rootCA.key e o certificado em rootCA.crt.
+
+openssl req -new -newkey rsa:4096 -keyout localhost.key -out localhost.csr:
+Cria uma solicitação de certificado assinada por outra autoridade (CSR) com chave RSA de 4096 bits,
+gerando um novo par de chaves e salvando a chave privada em localhost.key e a solicitação de certificado em localhost.csr.
+
+authorityKeyIdentifier=keyid,issuer, basicConstraints=CA:FALSE, subjectAltName = @alt_names, [alt_names], DNS.1 = localhost:
+Configuração de extensões para o certificado, especificamente para indicar que não é uma CA, define o nome alternativo do sujeito
+(SAN) como "localhost".
+
+openssl x509 -req -CA rootCA.crt -CAkey rootCA.key -in localhost.csr -out localhost.crt -days 365 -CAcreateserial -extfile localhost.ext:
+Assina a solicitação de certificado usando a autoridade de certificação criada anteriormente,
+gerando um certificado para "localhost" válido por 365 dias, usando as extensões especificadas no arquivo localhost.ext.
+
+openssl x509 -in localhost.crt -text:
+Exibe informações detalhadas do certificado "localhost".
+
+openssl pkcs12 -export -out localhost.p12 -name "localhost" -inkey localhost.key -in localhost.crt:
+Combina a chave privada e o certificado em um arquivo PKCS12 para uso em algumas aplicações que exigem esse formato.
+
+keytool -importkeystore -srckeystore localhost.p12 -srcstoretype PKCS12 -destkeystore keystore.jks -deststoretype JKS:
+Converte o arquivo PKCS12 para o formato de armazenamento de chaves Java (JKS) 
+renomeando-o para "keystore.jks".
